@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Meal Sessions{% endblock %}
+{% block content %}
+<p class="d-flex justify-content-center mt-4">
+    <strong>Total spent: </strong> {{ total_spent }} PLN
+</p>
+<div class="container mt-2 d-flex justify-content-center">
+    <div class="card p-4 w-100" style="max-width: 900px">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center mb-0">Meal Sessions</h2>
+            <a href="{% url 'create_session' %}" class="btn btn-primary btn-lg">Create New Session</a>
+        </div>
+        
+        <!-- Active Sessions -->
+        <ul class="list-group mb-4">
+            {% for session in active_sessions %}
+            <div class="list-group-item list-group-item-action active-session position-relative">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="text-muted">Created by: {{ session.creator.first_name }} {{ session.creator.last_name }}</span><br />
+                        <strong>{{ session.name }}</strong><br />
+                        <span class="text-muted">{{ session.restaurant.name }}</span>
+                    </div>
+                    <div class="text-end mt-3">
+                        <span><strong>Your expense:</strong> {{ session.user_expense|default:0 }} PLN</span><br />
+                        <span class="text-secondary">Order Deadline: {{ session.order_deadline|date:"d.m.Y, H:i" }}</span><br />
+                        <span class="text-secondary">Delivery: {{ session.delivery_time|date:"d.m.Y, H:i" }}</span>
+                    </div>
+                </div>
+
+                {% if session.user_expense|default:0 > 0 %}
+                <span class="badge bg-success position-absolute"
+                    style="top: 5px; right: 10px; font-size: 0.75rem; padding: 2px 8px">Order Placed</span>
+                {% endif %}
+
+                <div class="d-flex justify-content-center gap-2 mt-0">
+                    {% if session.creator == request.user %}
+                    <a href="{% url 'session_summary' session.id %}" class="btn btn-info btn-extra-small">View Summary</a>
+                    {% endif %}
+                    {% if session.order.total_price %}
+                    <a href="{% url 'edit_order' session.id user.id %}" class="btn btn-primary btn-extra-small">Edit Order</a>
+                    {% else %}
+                    <a href="{% url 'create_order' session.id user.id %}" class="btn btn-success btn-extra-small">Make Order</a>
+                    {% endif %}
+                    <a href="{% url 'session_detail' session.id %}" class="btn btn-secondary btn-extra-small">View Details</a>
+                </div>
+            </div>
+
+            {% empty %}
+            <p class="text-center text-muted"><em>No active sessions.</em></p>
+            {% endfor %}
+        </ul>
+
+        <!-- Past Sessions -->
+        <ul class="list-group mt-4">
+            {% for session in past_sessions %}
+            <div class="list-group-item list-group-item-action past-session position-relative">
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <span class="text-muted">Created by: {{ session.creator.first_name }} {{ session.creator.last_name }}</span><br />
+                        <strong>{{ session.name }}</strong><br />
+                        <span class="text-muted">{{ session.restaurant.name }}</span>
+                    </div>
+                    <div class="text-end mt-3">
+                        <span><strong>Your expense:</strong> {{ session.user_expense|default:0 }} PLN</span><br />
+                        <span class="text-secondary">Delivered on: {{ session.delivery_time|date:"d.m.Y, H:i" }}</span>
+                    </div>
+                </div>
+
+                {% if session.user_expense|default:0 > 0 %}
+                <span class="badge bg-success position-absolute"
+                    style="top: 5px; right: 10px; font-size: 0.75rem; padding: 2px 8px">Order Placed</span>
+                {% endif %}
+
+                <div class="d-flex justify-content-center gap-2 mt-0">
+                    {% if session.creator == request.user %}
+                    <a href="{% url 'session_summary' session.id %}" class="btn btn-info btn-extra-small">View Summary</a>
+                    {% endif %}
+                    <a href="{% url 'session_detail' session.id %}" class="btn btn-secondary btn-extra-small">View Details</a>
+                </div>
+            </div>
+
+            {% empty %}
+            <p class="text-center text-muted"><em>No past sessions.</em></p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}

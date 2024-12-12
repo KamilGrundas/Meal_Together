@@ -1,0 +1,63 @@
+<div class="sidebar">
+    <h3>Participants</h3>
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+        </div>
+        {% endfor %}
+    {% endif %}
+    <ul class="list-group">
+        {% for participant in participants_data %}
+            <li class="list-group-item">
+                <div class="d-flex justify-content-between align-items-center">
+                    <strong>{{ participant.user.first_name }} {{ participant.user.last_name }}</strong>
+                    {% if participant.is_creator %}
+                        <span class="badge bg-primary">Session Creator</span>
+                    {% else %}
+                        {% if participant.orders %}
+                            {% if participant.payment_methods|length == 1 %}
+                                <span class="badge bg-success">{{ participant.payment_methods.0 }}</span>
+                            {% else %}
+                                <span class="badge bg-success">{{ participant.payment_methods|join:", " }}</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="badge bg-secondary">No Orders</span>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            
+                <div class="mt-2">
+                    {% if participant.orders %}
+                        <p><strong>Total:</strong> {{ participant.total_spent }} PLN</p>
+                        <ul>
+                            {% for order in participant.orders %}
+                                {% for item in order.orderitem_set.all %}
+                                    <li>
+                                        {{ item.quantity }} x {{ item.menu_item.name }} - {{ item.item_total_price }} PLN
+                                        {% if item.note %}
+                                            <p class="text-muted mb-0"><small>Uwagi: {{ item.note }}</small></p>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                        
+                        {% if is_creator or request.user == participant.user %}
+                            <a href="{% url 'edit_order' session.id participant.user.id %}" 
+                               class="btn btn-warning btn-sm mt-2">Edit Order</a>
+                        {% endif %}
+                    {% else %}
+                        <em>No orders yet.</em>
+                        <div class="mt-2">
+                            {% if is_creator or request.user == participant.user %}
+                                <a href="{% url 'create_order' session.id participant.user.id %}" 
+                                   class="btn btn-success btn-sm">Create Order</a>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

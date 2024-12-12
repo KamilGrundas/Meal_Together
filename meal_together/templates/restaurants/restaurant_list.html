@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block title %}Restaurants{% endblock %}
+
+{% block content %}
+<div class="container mt-2 d-flex justify-content-center">
+    <div class="card p-4 w-100" style="max-width: 800px;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-center mb-0">Restaurants</h2>
+            {% if user_in_group %}
+            <a href="{% url 'create_restaurant' %}" class="btn btn-primary btn-lg">New Restaurant</a>
+            {% endif %}
+        </div>
+        <ul class="list-group">
+            {% for restaurant in restaurants %}
+            <a href="{% url 'restaurant_detail' restaurant.id %}" class="text-decoration-none text-dark">
+                <li class="list-group-item mb-3 p-3">
+                    <strong>{{ restaurant.name }}</strong>
+                    <br>
+                    {% if restaurant.tags.all %}
+                        <div class="mt-2">
+                            {% for tag in restaurant.tags.all %}
+                                <span style="font-size: 12px;">{{ tag.name }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+            </a>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Order{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Create Order for "{{ session.name }}"</h1>
+    <p>Order by: <strong>{{ user.first_name }} {{ user.last_name }}</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+        <h3>Payment Method</h3>
+        {{ order_form.as_p }}        
+
+        <h3>Items in Order</h3>
+        {{ formset.management_form }}
+        <ul class="list-group mb-3">
+            {% for form in formset %}
+                <li class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-4">
+                            {{ form.menu_item.label_tag }} {{ form.menu_item }}
+                        </div>
+                        <div class="col-md-2">
+                            {{ form.quantity.label_tag }} {{ form.quantity }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form.note.label_tag }} {{ form.note }}
+                        </div>
+                        <div class="col-md-2">
+                            {% if form.instance.pk %}
+                                <label for="{{ form.prefix }}-DELETE">Delete:</label> {{ form.DELETE }}
+                            {% endif %}
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <button type="submit" class="btn btn-success">Create Order</button>
+        <a href="{% url 'session_detail' session.id %}" class="btn btn-secondary">Back to Session</a>
+    </form>
+</div>
+{% endblock %}

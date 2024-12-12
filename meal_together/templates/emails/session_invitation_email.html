@@ -1,0 +1,17 @@
+You Are Invited!
+
+Hello,
+
+You have been invited to the meal session "{{ session.name }}" hosted by {{ session.creator.first_name }} {{ session.creator.last_name }}.
+
+Details of the session:
+- Restaurant: {{ session.restaurant.name }}
+- Order Deadline: {{ session.order_deadline|date:"d.m.Y, H:i" }}
+- Delivery Time: {{ session.delivery_time|date:"d.m.Y, H:i" }}
+
+Please click the link below to view the session details and place your order:
+View Session Details: {{ session_link }}
+
+
+Thank you,
+MealTogether Team

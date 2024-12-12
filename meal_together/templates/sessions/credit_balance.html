@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load mathfilters %}
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Credit Balance</h1>
+
+    <p class="text-center">Your total balance: <strong>{{ total_balance }} PLN</strong></p>
+
+    <div class="alert mt-4 {% if total_balance > 0 %}alert-danger{% elif total_balance < 0 %}alert-success{% else %}alert-secondary{% endif %}" role="alert">
+        {% if total_balance > 0 %}
+            You owe a total of: <strong>{{ total_balance|abs }} PLN</strong>
+        {% elif total_balance < 0 %}
+            Other users owe you a total of: <strong>{{ total_balance|abs }} PLN</strong>
+        {% else %}
+            You have no credit balance.
+        {% endif %}
+    </div>
+
+    <h2 class="mt-4">Details:</h2>
+    <ul class="list-group mt-3">
+        {% for item in balances %}
+            <li class="list-group-item" style="background-color: {% if item.balance > 0 %}#f8d7da{% else %}#d4edda{% endif %};">
+                {% if item.balance > 0 %}
+                    You owe <strong>{{ item.user.username }}</strong>: <strong>{{ item.balance|abs }} PLN</strong>
+                {% else %}
+                    <strong>{{ item.user.username }}</strong> owes you: <strong>{{ item.balance|abs }} PLN</strong>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li class="list-group-item text-muted">No balance details available.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Meal Session{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card p-4" style="width: 700px;">
+        <h2 class="text-center mb-4">Edit Meal Session</h2>
+        <form method="POST" class="w-100">
+            {% csrf_token %}
+            <div class="form-container">
+                {{ form.name.label_tag }} {{ form.name }}
+                {{ form.restaurant.label_tag }} {{ form.restaurant }}
+                {{ form.order_deadline.label_tag }} {{ form.order_deadline }}
+                {{ form.delivery_time.label_tag }} {{ form.delivery_time }}
+            </div>
+
+            <div class="d-flex mt-4">
+                <div class="w-50 pe-2">
+                    <h5>{{ form.participants.label }}</h5>
+                    <div class="form-check">
+                        {% for participant in form.participants %}
+                            <label class="form-check-label d-flex align-items-center">
+                                {{ participant.tag }}
+                                <span class="ms-2">{{ participant.choice_label }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="w-50 ps-2">
+                    <h5>{{ form.groups.label }}</h5>
+                    <div class="form-check">
+                        {% for group in form.groups %}
+                            <label class="form-check-label d-flex align-items-center">
+                                {{ group.tag }}
+                                <span class="ms-2">{{ group.choice_label }}</span>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'session_detail' session.id %}" class="btn btn-secondary btn-lg w-50 me-2">Cancel</a>
+                <button type="submit" class="btn btn-success btn-lg w-50 ms-2">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

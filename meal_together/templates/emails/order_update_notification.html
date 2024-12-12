@@ -1,0 +1,15 @@
+Order Updated
+
+Hello {{ order.user.first_name }},
+
+Your order in the session "{{ session_name }}" has been updated. Here are the changes:
+{% for change in changes %}
+- {{ change }}
+{% endfor %}
+
+You can view the session details at the following link:
+View Session Details: {{ order_link }}
+
+
+Best regards,
+The Meal Together Team

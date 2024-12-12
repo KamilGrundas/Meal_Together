@@ -1,0 +1,40 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav w-100">
+                <li class="nav-item">
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        Meal Together
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                <div class="d-flex justify-content-center flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'session_list' %}">Sessions</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'restaurant_list' %}">Restaurants</a>
+                    </li>
+                </div>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'credit_balance' %}">Credit balance</a>
+                    </li>      
+                    <li class="nav-item ms-auto">
+                        <form method="POST" action="{% url 'logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item ms-auto">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

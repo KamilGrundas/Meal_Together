@@ -1,0 +1,95 @@
+.form-container p {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.form-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-container input,
+.form-container textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.form-container select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    border: 1px solid #ced4da;
+}
+
+.btn {
+    font-size: 18px;
+    padding: 10px 20px;
+}
+
+.list-group-item {
+    border-radius: 5px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+}
+
+.list-group-item strong a {
+    text-decoration: none;
+    font-size: 16px;
+}
+.list-group-item strong a:hover {
+    text-decoration: underline;
+}
+
+.badge {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+details {
+    margin-top: 20px;
+}
+
+summary {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.checkbox-list {
+    padding: 10px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+}
+
+.active-session {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+}
+.active-session:hover {
+    background-color: #c3e6cb;
+}
+
+.past-session {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+}
+.past-session:hover {
+    background-color: #e9ecef;
+}
+
+.btn-extra-small {
+    font-size: 14px;
+    padding: 3px 6px;
+    width: auto;
+    text-align: center;
+    border-radius: 3px;
+}

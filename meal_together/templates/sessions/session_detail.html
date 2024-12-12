@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Session Detail{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>{{ session.name }}</h1>
+            <p>Restaurant: {{ session.restaurant.name }}</p>
+            <p>Order Deadline: {{ session.order_deadline|date:"d.m.Y, H:i" }}</p>
+            <p>Delivery Time: {{ session.delivery_time|date:"d.m.Y, H:i" }}</p>
+            {% if is_creator %}
+                <a href="{% url 'session_edit' session.id %}" class="btn btn-primary mb-3">Edit Session</a>
+            {% endif %}
+        </div>
+        <div class="col-md-8 mx-auto">
+            {% include 'sessions/session_detail_sidebar.html' %}
+        </div>
+    </div>
+</div>
+{% endblock %}

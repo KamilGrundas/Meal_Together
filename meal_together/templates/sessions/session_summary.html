@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block title %}Session Summary{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Summary for "{{ session.name }}"</h1>
+    <p><strong>Order Deadline:</strong> {{ session.order_deadline }}</p>
+    <p><strong>Delivery Time:</strong> {{ session.delivery_time }}</p>
+    <p><strong>Restaurant:</strong> {{ session.restaurant.name }}</p>
+    <p><strong>Address:</strong> {{ session.restaurant.address }}</p>
+    <p><strong>Contact:</strong> {{ session.restaurant.phone_number }}</p>
+
+    <hr>
+
+    <h2>Participant Orders</h2>
+    <ul class="list-group mb-4">
+        {% for participant_order in participant_orders %}
+            <li class="list-group-item">
+                <h5>{{ participant_order.user.first_name }} {{ participant_order.user.last_name }}</h5>
+                <ul>
+                    {% for item in participant_order.items %}
+                        <li>{{ item.quantity }}x {{ item.menu_item.name }} - {{ item.menu_item.price }} PLN each{% if item.note %} - {{ item.note }} {% endif %}</li>
+                    {% endfor %}
+                </ul>
+                <p><strong>Total:</strong> {{ participant_order.total_spent }} PLN</p>
+            </li>
+        {% empty %}
+            <li class="list-group-item">No orders have been placed yet.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>Aggregated Items</h2>
+    <ul class="list-group mb-4">
+        {% for item in aggregated_items %}
+            <li class="list-group-item">
+                <strong>{{ item.name }}</strong>: {{ item.quantity }} portions - Total: {{ item.total_price }} PLN
+            </li>
+        {% empty %}
+            <li class="list-group-item">No items have been ordered yet.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+
+    <h2>Total Summary</h2>
+    <p><strong>Total Spent:</strong> {{ total_session_spent }} PLN</p>
+
+    <a href="{% url 'session_list' %}" class="btn btn-primary mt-3">Back to Sessions</a>
+</div>
+{% endblock %}

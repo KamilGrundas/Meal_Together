@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card p-4" style="width: 400px;">
+        <div class="card-header text-center bg-white">
+            <h2 class="text-dark">Welcome, {{ user.username }}</h2>
+        </div>
+        <div class="card-body">
+            <p class="mb-3">
+                <strong>Email:</strong><br>
+                <span class="form-value">{{ user.email }}</span>
+            </p>
+            <p class="mb-3">
+                <strong>Username:</strong><br>
+                <span class="form-value">{{ user.username }}</span>
+            </p>
+            <p class="mb-3">
+                <strong>First name:</strong><br>
+                <span class="form-value">{{ user.first_name }}</span>
+            </p>
+            <p class="mb-3">
+                <strong>Last name:</strong><br>
+                <span class="form-value">{{ user.last_name }}</span>
+            </p>
+            <div class="d-flex justify-content-between mt-4">
+                <a href="{% url 'edit_profile' %}" class="btn btn-primary btn-lg">Edit Profile</a>
+                <a href="{% url 'password_reset' %}" class="btn btn-primary btn-lg">Change Password</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
